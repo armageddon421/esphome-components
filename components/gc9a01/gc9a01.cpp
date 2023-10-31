@@ -119,8 +119,8 @@ size_t GC9A01::get_buffer_length() {
 }
 
 void HOT GC9A01::draw_absolute_pixel_internal(int x, int y, Color color) {
-  if (x >= this->get_width_internal() || x < 0 || y >= this->get_height_internal() || y < 0)
-    return;
+  //if (x >= this->get_width_internal() || x < 0 || y >= this->get_height_internal() || y < 0)
+    //return;
 
   if (this->eightbitcolor_) {
     const uint32_t color332 = display::ColorUtil::color_to_332(color);
@@ -128,9 +128,11 @@ void HOT GC9A01::draw_absolute_pixel_internal(int x, int y, Color color) {
     this->buffer_[pos] = color332;
   } else {
     const uint32_t color565 = display::ColorUtil::color_to_565(color);
-    uint32_t pos = (x + y * this->get_width_internal()) * 2;
-    this->buffer_[pos++] = (color565 >> 8) & 0xff;
-    this->buffer_[pos] = color565 & 0xff;
+    const uint32_t pos = x + y * width_;
+    if(pos >= width_ * height_) return;
+    //this->buffer_[pos++] = (color565 >> 8) & 0xff;
+    //this->buffer_[pos] = color565 & 0xff;
+    ((uint16_t*)this->buffer_)[pos] = color565;
   }
 }
 
