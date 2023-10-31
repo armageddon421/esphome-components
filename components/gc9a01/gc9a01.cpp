@@ -127,7 +127,7 @@ void HOT GC9A01::draw_absolute_pixel_internal(int x, int y, Color color) {
     uint16_t pos = (x + y * this->get_width_internal());
     this->buffer_[pos] = color332;
   } else {
-    const uint32_t color565 = display::ColorUtil::color_to_565(color);
+    const uint32_t color565 = display::ColorUtil::color_to_565(color, display::ColorOrder::COLOR_ORDER_BGR);
     const uint32_t pos = x + y * width_;
     if(pos >= width_ * height_) return;
     //this->buffer_[pos++] = (color565 >> 8) & 0xff;
